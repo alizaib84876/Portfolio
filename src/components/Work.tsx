@@ -1,5 +1,20 @@
 import { projects } from "../data";
 
+function Arrow() {
+  return (
+    <svg className="link-arrow" viewBox="0 0 12 12" aria-hidden="true">
+      <path
+        d="M3.2 8.8 8.8 3.2M4.7 3.2H8.8V7.3"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function Work() {
   return (
     <section className="section" id="work">
@@ -45,12 +60,12 @@ export function Work() {
                 {project.demo ? (
                   <a className="text-link" href={project.demo} target="_blank" rel="noreferrer">
                     Live demo
-                    <span aria-hidden="true"> ↗</span>
+                    <Arrow />
                   </a>
                 ) : null}
                 <a className="text-link" href={project.href} target="_blank" rel="noreferrer">
                   View on GitHub
-                  <span aria-hidden="true"> ↗</span>
+                  <Arrow />
                 </a>
               </div>
             </div>

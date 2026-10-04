@@ -496,7 +496,16 @@ h2 {
 }
 
 .text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
   font-size: 0.95rem;
+}
+
+.link-arrow {
+  width: 0.82em;
+  height: 0.82em;
+  flex: none;
 }
 
 .timeline > li,
