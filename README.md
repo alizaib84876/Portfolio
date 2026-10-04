@@ -61,12 +61,3 @@ TensorFlow, transfer learning, Flask
 | Applied AI | LLMs, agentic workflows, NLP, computer vision, transfer learning |
 | Data | Pandas, NumPy, PostgreSQL, Supabase, SQLAlchemy, Hadoop |
 | Engineering | FastAPI, Flask, React, Next.js, Docker, MLflow, GitHub Actions |
-
-## Run locally
-
-```bash
-npm install
-npm run dev
-```
-
-Open [http://127.0.0.1:5173](http://127.0.0.1:5173). Project copy lives in `src/data.ts`.
