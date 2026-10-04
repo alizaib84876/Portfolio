@@ -11,7 +11,12 @@ export function Hero() {
   return (
     <section className="hero" id="top">
       <p className="kicker">BSc Data Science · Graduated June 2026</p>
-      <h1>{profile.name}</h1>
+      <div className="hero-title">
+        <h1>{profile.name}</h1>
+        <div className="portrait">
+          <img src="/portrait.jpeg" alt="" />
+        </div>
+      </div>
       <p className="roles">
         {profile.roles.map((role) => (
           <span key={role}>{role}</span>
