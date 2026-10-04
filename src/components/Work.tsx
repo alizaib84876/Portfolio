@@ -57,6 +57,12 @@ export function Work() {
                 <span />
               )}
               <div className="project-links">
+                {project.caseStudy ? (
+                  <a className="text-link" href={`/${project.caseStudy.slug}`}>
+                    Case study
+                    <Arrow />
+                  </a>
+                ) : null}
                 {project.demo ? (
                   <a className="text-link" href={project.demo} target="_blank" rel="noreferrer">
                     Live demo

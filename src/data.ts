@@ -10,6 +10,18 @@ export const profile = {
   roles: ["AI/ML Engineer"],
 };
 
+export type CaseStudy = {
+  slug: string;
+  kicker: string;
+  lede: string;
+  stack: string[];
+  pipeline: string[];
+  pipelineNote: string;
+  metrics: { value: string; label: string }[];
+  sections: { title: string; paragraphs: string[] }[];
+  note: string;
+};
+
 export type Project = {
   title: string;
   href: string;
@@ -19,6 +31,7 @@ export type Project = {
   tags: string[];
   stat?: { value: string; label: string };
   demo?: string;
+  caseStudy?: CaseStudy;
 };
 
 /**
@@ -77,6 +90,61 @@ export const projects: Project[] = [
     ],
     tags: ["Computer vision", "NLP", "FastAPI", "React", "TypeScript", "PostgreSQL"],
     stat: { value: "3-stage", label: "OCR pipeline" },
+    caseStudy: {
+      slug: "dyslexai",
+      kicker: "Final year project · BSc Data Science, FAST–NUCES",
+      lede:
+        "A learning-support platform that reads handwritten work and uses a learner’s mistakes to choose the next practice. It is an academic project, not a diagnostic tool.",
+      stack: [
+        "React",
+        "FastAPI",
+        "Python",
+        "DocTR",
+        "TrOCR",
+        "LLM",
+        "SQLAlchemy",
+        "Supabase",
+      ],
+      pipeline: ["Handwritten page", "DocTR", "TrOCR", "LLM", "Digital text"],
+      pipelineNote:
+        "TrOCR is built for a line of handwriting, not a full page. DocTR splits the page into text regions first. An LLM then corrects the recognized text using the surrounding context.",
+      metrics: [
+        { value: "0.270", label: "Word error rate" },
+        { value: "0.175", label: "Character error rate" },
+      ],
+      sections: [
+        {
+          title: "Handwriting recognition",
+          paragraphs: [
+            "The recognition path is three stages: segment the page, read each region, then correct the text.",
+            "DocTR finds the handwritten regions. TrOCR reads them. The LLM does contextual post-correction, so a mistake that is obvious from the sentence can be fixed after recognition.",
+            "I evaluated the recognizer with word error rate and character error rate. The best recorded results were a WER of 0.270 and a CER of 0.175.",
+          ],
+        },
+        {
+          title: "Adaptive practice",
+          paragraphs: [
+            "The same exercises for every learner miss the point. DyslexAI looks at attempts and mistakes, finds the weak areas, and uses that to set the next practice.",
+            "The loop is attempt, analyze the mistakes, name the weak area, then give targeted practice. Performance changes what comes next, instead of a fixed lesson order.",
+          ],
+        },
+        {
+          title: "The application",
+          paragraphs: [
+            "Both pieces sit in one product. The interface is React. The API is FastAPI. Learner data lives in Supabase, with SQLAlchemy on the backend. The models are DocTR, TrOCR, and an LLM.",
+            "The work was not only training a recognizer. The pipeline had to connect to accounts, stored attempts, and the screens a learner and a teacher actually use, including dashboards and daily practice.",
+          ],
+        },
+        {
+          title: "What I learned",
+          paragraphs: [
+            "A single handwriting model was the wrong unit of work. Splitting the job into segmentation, recognition, and correction made the limits of each model explicit and easier to improve.",
+            "The adaptive system also had to use interaction data, not only a model score. That is what turns an experiment into an application that can change the next exercise.",
+          ],
+        },
+      ],
+      note: "Next I would test the adaptive loop with learners and educators, improve recognition of highly irregular handwriting, and add more languages. Presented at the FAST–NUCES job fair.",
+    },
   },
   {
     title: "Fraud Detection MLOps",

@@ -1,18 +1,18 @@
 import { profile } from "../data";
 
 const links = [
-  { href: "#experience", id: "experience", label: "Experience" },
-  { href: "#work", id: "work", label: "Work" },
-  { href: "#background", id: "background", label: "Background" },
-  { href: "#skills", id: "skills", label: "Skills" },
-  { href: "#contact", id: "contact", label: "Contact" },
+  { href: "/#experience", id: "experience", label: "Experience" },
+  { href: "/#work", id: "work", label: "Work" },
+  { href: "/#background", id: "background", label: "Background" },
+  { href: "/#skills", id: "skills", label: "Skills" },
+  { href: "/#contact", id: "contact", label: "Contact" },
 ];
 
 export function Header({ active }: { active: string }) {
   return (
     <header className="site-header">
       <div className="wrap header-inner">
-        <a className="brand" href="#top">
+        <a className="brand" href="/#top">
           <span className="brand-mark" aria-hidden="true">
             AZ
           </span>

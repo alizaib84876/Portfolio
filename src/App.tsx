@@ -1,30 +1,39 @@
 import { Background } from "./components/Background";
+import { CaseStudy } from "./components/CaseStudy";
 import { Experience } from "./components/Experience";
 import { Contact } from "./components/Contact";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { Skills } from "./components/Skills";
 import { Work } from "./components/Work";
-import { profile } from "./data";
+import { profile, projects } from "./data";
 import { useActiveSection } from "./useActiveSection";
 
 export default function App() {
   const active = useActiveSection();
+  const slug = window.location.pathname.replace(/^\/+|\/+$/g, "");
+  const studyProject = projects.find((project) => project.caseStudy?.slug === slug);
 
   return (
     <>
       <a className="skip" href="#content">
         Skip to content
       </a>
-      <Header active={active} />
+      <Header active={studyProject ? "work" : active} />
       <main id="content">
         <div className="wrap">
-          <Hero />
-          <Experience />
-          <Work />
-          <Background />
-          <Skills />
-          <Contact />
+          {studyProject ? (
+            <CaseStudy project={studyProject} />
+          ) : (
+            <>
+              <Hero />
+              <Experience />
+              <Work />
+              <Background />
+              <Skills />
+              <Contact />
+            </>
+          )}
         </div>
       </main>
       <footer className="site-footer">
