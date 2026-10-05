@@ -18,37 +18,56 @@ const nav = [
 
 const icons: Record<string, string> = {
   Python: "/skills/python.png",
+  "C++": "/skills/cplusplus.svg",
+  PyTorch: "/skills/pytorch.svg",
   TensorFlow: "/skills/tensorflow.png",
   "Scikit-learn": "/skills/scikitlearn.png",
   OpenCV: "/skills/opencv.png",
+  Pandas: "/skills/pandas.svg",
+  NumPy: "/skills/numpy.svg",
   Matplotlib: "/skills/matplotlib.png",
+  Seaborn: "/skills/seaborn.svg",
+  PostgreSQL: "/skills/postgresql.svg",
+  Supabase: "/skills/supabase.svg",
+  SQLAlchemy: "/skills/sqlalchemy.svg",
+  "OpenAI API": "/skills/openai.svg",
+  MLflow: "/skills/mlflow.svg",
+  Kubeflow: "/skills/kubeflow.svg",
+  "GitHub Actions": "/skills/githubactions.svg",
+  Git: "/skills/git.svg",
   FastAPI: "/skills/fastapi.png",
+  Flask: "/skills/flask.svg",
+  React: "/skills/react.svg",
+  "Next.js": "/skills/nextdotjs.svg",
   Docker: "/skills/docker.png",
+  LangChain: "/skills/langchain.png",
+  LlamaIndex: "/skills/llamaindex.png",
+  Pinecone: "/skills/pinecone.png",
+  n8n: "/skills/n8n.svg",
+  "Claude Code": "/skills/claude.svg",
+  Cursor: "/skills/cursor.svg",
+  Antigravity: "/skills/antigravity.png",
 };
 
 const marquee = [
   "Python",
-  "TensorFlow",
   "PyTorch",
+  "TensorFlow",
   "Scikit-learn",
-  "OpenCV",
   "FastAPI",
   "Docker",
-  "MLflow",
-  "PostgreSQL",
   "React",
   "Next.js",
-  "SQL",
-];
-
-const orbit = [
-  { icon: "Python", ring: "0.55", angle: "0" },
-  { icon: "TensorFlow", ring: "0.55", angle: "120" },
-  { icon: "FastAPI", ring: "0.55", angle: "240" },
-  { icon: "Docker", ring: "0.78", angle: "40" },
-  { icon: "Scikit-learn", ring: "0.78", angle: "160" },
-  { icon: "OpenCV", ring: "0.78", angle: "280" },
-  { icon: "Matplotlib", ring: "1", angle: "90" },
+  "LangChain",
+  "LlamaIndex",
+  "Pinecone",
+  "n8n",
+  "Claude Code",
+  "Cursor",
+  "OpenAI API",
+  "Antigravity",
+  "PostgreSQL",
+  "MLflow",
 ];
 
 const roleTech: Record<string, string[]> = {
@@ -332,52 +351,23 @@ export function Home() {
             </div>
             <div className="section-meta">Models, data, and the software around them</div>
           </div>
-          <div className="skills-grid">
-            <div className="skill-stack">
-              {skillGroups.map((group, index) => (
-                <div className={`skill-card reveal${index ? ` reveal-delay-${Math.min(index, 3)}` : ""}`} key={group.label}>
-                  <div className={`skill-card-head${["", " violet", " mint", " amber"][index] ?? ""}`}>
-                    <h3>
-                      <span className="dot-icon"></span>
-                      {group.label}
-                    </h3>
-                    <span className="num">/ {String(group.items.length).padStart(2, "0")}</span>
-                  </div>
-                  <div className="skill-list">
-                    {group.items.map((item) => (
-                      <Chip key={item} name={item} />
-                    ))}
-                  </div>
+          <div className="skill-stack">
+            {skillGroups.map((group, index) => (
+              <div className={`skill-card reveal${index ? ` reveal-delay-${Math.min(index, 3)}` : ""}`} key={group.label}>
+                <div className={`skill-card-head${["", " violet", " mint", " amber", " violet", " mint"][index] ?? ""}`}>
+                  <h3>
+                    <span className="dot-icon"></span>
+                    {group.label}
+                  </h3>
+                  <span className="num">/ {String(group.items.length).padStart(2, "0")}</span>
                 </div>
-              ))}
-            </div>
-            <div className="orbit-card reveal reveal-delay-2">
-              <div className="label-top">
-                <span>// CORE_LOOP</span>
-                <span style={{ color: "var(--cyan)" }}>● tools</span>
+                <div className="skill-list">
+                  {group.items.map((item) => (
+                    <Chip key={item} name={item} />
+                  ))}
+                </div>
               </div>
-              <div className="title-mid">Daily orbit</div>
-              <div className="orbit-stage">
-                <div className="orbit-ring r3"></div>
-                <div className="orbit-ring r2"></div>
-                <div className="orbit-ring r1"></div>
-                <div className="orbit-core">AI</div>
-                {orbit.map((node) => (
-                  <div
-                    key={node.icon}
-                    className="orbit-node"
-                    data-ring={node.ring}
-                    data-angle={node.angle}
-                  >
-                    <img src={icons[node.icon]} alt={node.icon} />
-                  </div>
-                ))}
-              </div>
-              <div className="label-top" style={{ marginTop: "auto" }}>
-                <span>tools_in_motion = {orbit.length}</span>
-                <span>from the work below</span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -438,18 +428,20 @@ export function Home() {
                 <span className="square"></span>04 / Selected work
               </div>
               <h2>
-                Seven systems, <span className="gradient">one thread</span>
+                Selected work, <span className="gradient">built to be used</span>
               </h2>
             </div>
             <div className="section-meta">CV · NLP · MLOps · data</div>
           </div>
           <div className="projects-stack">
             {projects.map((project, index) => (
-              <article className={`project-card ${tints[index % tints.length]} reveal`} key={project.title}>
+              <article className={`project-card ${tints[index % tints.length]}${project.image ? " has-shot" : ""} reveal`} key={project.title}>
                 <div className="project-img-wrap">
                   <span className="project-cat">{project.context}</span>
                   <span className="project-num">{String(index + 1).padStart(2, "0")}</span>
-                  {project.stat ? (
+                  {project.image ? (
+                    <img className="project-shot" src={project.image} alt={`${project.title} application`} />
+                  ) : project.stat ? (
                     <div className="project-stat-panel">
                       <div className="big">{project.stat.value}</div>
                       <div className="lbl">{project.stat.label}</div>

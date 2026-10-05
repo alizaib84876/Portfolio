@@ -185,29 +185,6 @@ document.querySelectorAll('.skill-card').forEach((card) => {
   });
 });
 
-/* ---------- Orbit nodes positioning ---------- */
-function placeOrbitNodes() {
-  document.querySelectorAll('.orbit-stage').forEach((stage) => {
-    const w = stage.clientWidth;
-    const h = stage.clientHeight;
-    const cx = w / 2, cy = h / 2;
-    stage.querySelectorAll('.orbit-node').forEach((node) => {
-      const ring = parseFloat(node.dataset.ring); // 0..1 fraction of width
-      const angle = parseFloat(node.dataset.angle) * Math.PI / 180;
-      const radius = (Math.min(w, h) * ring) / 2;
-      const x = cx + Math.cos(angle) * radius;
-      const y = cy + Math.sin(angle) * radius;
-      node.style.left = `${x}px`;
-      node.style.top = `${y}px`;
-    });
-  });
-}
-listen(window, 'resize', placeOrbitNodes);
-placeOrbitNodes();
-// re-run after fonts/images load
-setTimeout(placeOrbitNodes, 200);
-listen(window, 'load', placeOrbitNodes);
-
 /* ---------- Magnetic CTA buttons ---------- */
 if (!REDUCED_MOTION) document.querySelectorAll('.hero-ctas .btn').forEach((btn) => {
   btn.addEventListener('mousemove', (e) => {
@@ -295,6 +272,7 @@ document.querySelectorAll('[data-scramble]').forEach((el) => scrambleIO.observe(
 (() => {
   const body = document.getElementById('terminal-body');
   if (!body) return;
+  body.replaceChildren();
   const LOG_LINES = [
     { lvl: 'inf', msg: 'doctr segment · page · 14 regions' },
     { lvl: 'ok', msg: 'trocr recognize · wer <span class="v">0.270</span>' },
@@ -316,9 +294,10 @@ document.querySelectorAll('[data-scramble]').forEach((el) => scrambleIO.observe(
   const rows = [];
   // Dynamic row count based on container height
   function calcMaxRows() {
-    const lineH = 22; // approx px (font 12 * line-height 1.7 + a bit)
-    const innerH = body.clientHeight - 28; // minus padding
-    return Math.max(8, Math.floor(innerH / lineH));
+    const lineH = 22;
+    const innerH = body.clientHeight - 28;
+    if (innerH < lineH) return 6;
+    return Math.max(4, Math.floor(innerH / lineH));
   }
   let MAX_ROWS = calcMaxRows();
   listen(window, 'resize', () => { MAX_ROWS = calcMaxRows(); });
@@ -342,10 +321,7 @@ document.querySelectorAll('[data-scramble]').forEach((el) => scrambleIO.observe(
     rows.push(row);
     requestAnimationFrame(() => { row.style.opacity = '1'; row.style.transform = 'translateY(0)'; });
     while (rows.length > MAX_ROWS) {
-      const old = rows.shift();
-      old.style.opacity = '0';
-      old.style.transform = 'translateY(-8px)';
-      setTimeout(() => old.remove(), 300);
+      rows.shift()?.remove();
     }
   }
   // seed enough lines to fully fill the visible area
@@ -807,5 +783,6 @@ return () => {
   stops.forEach((stop) => stop());
   document.body.classList.remove("menu-open");
   document.body.style.overflow = "";
+  document.getElementById("terminal-body")?.replaceChildren();
 };
 }

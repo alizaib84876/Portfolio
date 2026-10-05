@@ -30,6 +30,7 @@ export type Project = {
   points: string[];
   tags: string[];
   stat?: { value: string; label: string };
+  image?: string;
   demo?: string;
   caseStudy?: CaseStudy;
 };
@@ -90,6 +91,7 @@ export const projects: Project[] = [
     ],
     tags: ["Computer vision", "NLP", "FastAPI", "React", "TypeScript", "PostgreSQL"],
     stat: { value: "3-stage", label: "OCR pipeline" },
+    image: "/projects/dyslexai.jpeg",
     caseStudy: {
       slug: "dyslexai",
       kicker: "Final year project · BSc Data Science, FAST–NUCES",
@@ -147,18 +149,36 @@ export const projects: Project[] = [
     },
   },
   {
-    title: "Fraud Detection MLOps",
-    href: "https://github.com/alizaib84876/Fraud-Detection-MLOps-Platform-with-Adaptive-Drift-Monitoring",
-    context: "MLOps",
+    title: "FlockOps",
+    href: "https://github.com/alizaib84876/FlockOps",
+    demo: "https://flock-ops-theta.vercel.app",
+    context: "Al-Hafiz Protein Farms",
     summary:
-      "A fraud-detection pipeline that monitors data drift and retrains when the signal actually changes.",
+      "Operations platform for a multi-farm broiler business: sheds, flocks, daily logs, expenses, and sales.",
     points: [
-      "Trained a weighted XGBoost, LightGBM, and random forest ensemble on 284K IEEE-CIS transactions, using SMOTE and class weighting to prioritize recall.",
-      "Built a drift detector from a KS-test, PSI, and ADWIN that down-weights high false-positive detectors, so retraining is not triggered unnecessarily.",
-      "Automated the retraining lifecycle with GitHub Actions from live drift signals, and tracked it with Prometheus, Grafana, and MLflow.",
+      "Replaced paper and notepad tracking, where daily logs were missed and a batch had no audit trail.",
+      "Designed the data model so each shed has one active flock, daily numbers are unique per flock and date, and every correction records who changed what, when, and why.",
+      "Built a mobile-first offline PWA in Next.js, Supabase, and Vercel. Shed staff log mortality, sick birds, feed, and water without signal, and entries sync when the network returns.",
+      "Added owner, supervisor, and worker access, with team invites and owner-level profit and loss hidden from field staff.",
     ],
-    tags: ["XGBoost", "Drift monitoring", "MLflow", "GitHub Actions", "Docker"],
-    stat: { value: "284K", label: "Transactions modeled" },
+    tags: ["Next.js", "Supabase", "PostgreSQL", "PWA"],
+    stat: { value: "35–45", label: "Day flock cycle" },
+    image: "/projects/flockops.png",
+  },
+  {
+    title: "ArtSight",
+    href: "https://github.com/alizaib84876/ArtSight",
+    context: "Computer vision",
+    summary:
+      "Art-style classification and neural style transfer, packaged as an interactive Flask app.",
+    points: [
+      "Fine-tuned MobileNetV2 with transfer learning across 10 art-style categories.",
+      "Integrated TensorFlow Hub's arbitrary neural style transfer model for interactive stylization.",
+      "Built a Flask app that accepts a custom image and applies a chosen style.",
+    ],
+    tags: ["TensorFlow", "Transfer learning", "Flask"],
+    stat: { value: "10", label: "Style classes" },
+    image: "/projects/artsight.png",
   },
   {
     title: "Capability-Aware Verification",
@@ -175,34 +195,18 @@ export const projects: Project[] = [
     stat: { value: "90.00%", label: "MMLU accuracy" },
   },
   {
-    title: "FlockOps",
-    href: "https://github.com/alizaib84876/FlockOps",
-    demo: "https://flock-ops-theta.vercel.app",
-    context: "Al-Hafiz Protein Farms",
+    title: "Fraud Detection MLOps",
+    href: "https://github.com/alizaib84876/Fraud-Detection-MLOps-Platform-with-Adaptive-Drift-Monitoring",
+    context: "MLOps",
     summary:
-      "Operations platform for a multi-farm broiler business: sheds, flocks, daily logs, expenses, and sales.",
+      "A fraud-detection pipeline that monitors data drift and retrains when the signal actually changes.",
     points: [
-      "Replaced paper and notepad tracking, where daily logs were missed and a batch had no audit trail.",
-      "Designed the data model so each shed has one active flock, daily numbers are unique per flock and date, and every correction records who changed what, when, and why.",
-      "Built a mobile-first offline PWA in Next.js, Supabase, and Vercel. Shed staff log mortality, sick birds, feed, and water without signal, and entries sync when the network returns.",
-      "Added owner, supervisor, and worker access, with team invites and owner-level profit and loss hidden from field staff.",
+      "Trained a weighted XGBoost, LightGBM, and random forest ensemble on 284K IEEE-CIS transactions, using SMOTE and class weighting to prioritize recall.",
+      "Built a drift detector from a KS-test, PSI, and ADWIN that down-weights high false-positive detectors, so retraining is not triggered unnecessarily.",
+      "Automated the retraining lifecycle with GitHub Actions from live drift signals, and tracked it with Prometheus, Grafana, and MLflow.",
     ],
-    tags: ["Next.js", "Supabase", "PostgreSQL", "PWA"],
-    stat: { value: "35–45", label: "Day flock cycle" },
-  },
-  {
-    title: "Real-Time Retail Data Warehouse",
-    href: "https://github.com/alizaib84876/Real-Time-Retail-Data-Warehouse",
-    context: "Data engineering",
-    summary:
-      "A near-real-time retail warehouse that enriches a transaction stream and loads it into a star schema.",
-    points: [
-      "Implemented HYBRIDJOIN in Python to join a continuous transaction stream with large, disk-based customer and product master data.",
-      "Built a multi-threaded ETL pipeline that enriches each sale and loads it into fact and dimension tables.",
-      "Modeled sales on a star schema, with fact_sales linked to customer, product, and date dimensions, and wrote 20 SQL queries for slicing, drill-down, and trend analysis.",
-    ],
-    tags: ["Python", "ETL", "SQL", "Star schema"],
-    stat: { value: "20", label: "Analytical SQL queries" },
+    tags: ["XGBoost", "Drift monitoring", "MLflow", "GitHub Actions", "Docker"],
+    stat: { value: "284K", label: "Transactions modeled" },
   },
   {
     title: "Electric Load Forecasting",
@@ -219,18 +223,18 @@ export const projects: Project[] = [
     stat: { value: "10", label: "Cities forecast" },
   },
   {
-    title: "ArtSight",
-    href: "https://github.com/alizaib84876/ArtSight",
-    context: "Computer vision",
+    title: "Real-Time Retail Data Warehouse",
+    href: "https://github.com/alizaib84876/Real-Time-Retail-Data-Warehouse",
+    context: "Data engineering",
     summary:
-      "Art-style classification and neural style transfer, packaged as an interactive Flask app.",
+      "A near-real-time retail warehouse that enriches a transaction stream and loads it into a star schema.",
     points: [
-      "Fine-tuned MobileNetV2 with transfer learning across 10 art-style categories.",
-      "Integrated TensorFlow Hub's arbitrary neural style transfer model for interactive stylization.",
-      "Built a Flask app that accepts a custom image and applies a chosen style.",
+      "Implemented HYBRIDJOIN in Python to join a continuous transaction stream with large, disk-based customer and product master data.",
+      "Built a multi-threaded ETL pipeline that enriches each sale and loads it into fact and dimension tables.",
+      "Modeled sales on a star schema, with fact_sales linked to customer, product, and date dimensions, and wrote 20 SQL queries for slicing, drill-down, and trend analysis.",
     ],
-    tags: ["TensorFlow", "Transfer learning", "Flask"],
-    stat: { value: "10", label: "Style classes" },
+    tags: ["Python", "ETL", "SQL", "Star schema"],
+    stat: { value: "20", label: "Analytical SQL queries" },
   },
 ];
 
@@ -278,37 +282,26 @@ export const skillGroups = [
     items: ["Python", "C++", "SQL"],
   },
   {
-    label: "Machine learning",
+    label: "Machine Learning & AI",
     items: [
-      "Supervised and unsupervised learning",
-      "Deep learning",
+      "Supervised & Unsupervised Learning",
+      "Deep Learning",
       "NLP",
-      "Computer vision",
-      "Transfer learning",
+      "Computer Vision",
+      "Transfer Learning",
       "LLMs",
-      "Agentic workflows",
+      "Agentic AI",
       "PyTorch",
       "TensorFlow",
       "Scikit-learn",
     ],
   },
   {
-    label: "Data & libraries",
-    items: [
-      "Pandas",
-      "NumPy",
-      "Matplotlib",
-      "Seaborn",
-      "Librosa",
-      "PostgreSQL",
-      "Supabase",
-      "SQLAlchemy",
-      "Hadoop",
-      "Tableau",
-    ],
+    label: "LLM & AI Applications",
+    items: ["LangChain", "LlamaIndex", "RAG", "Pinecone", "OpenAI API", "n8n"],
   },
   {
-    label: "MLOps & engineering",
+    label: "MLOps & Engineering",
     items: [
       "Docker",
       "MLflow",
@@ -320,5 +313,22 @@ export const skillGroups = [
       "React",
       "Next.js",
     ],
+  },
+  {
+    label: "Data & Databases",
+    items: [
+      "Pandas",
+      "NumPy",
+      "Matplotlib",
+      "Seaborn",
+      "Librosa",
+      "PostgreSQL",
+      "Supabase",
+      "SQLAlchemy",
+    ],
+  },
+  {
+    label: "AI-Assisted Development",
+    items: ["Claude Code", "Cursor", "Antigravity"],
   },
 ];

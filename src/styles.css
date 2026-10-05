@@ -854,6 +854,8 @@ section { position: relative; z-index: 1; }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex: none;
+  line-height: 1.7;
 }
 .console-log .ts { color: var(--dim); flex-shrink: 0; }
 .console-log .lvl { width: 32px; flex-shrink: 0; font-weight: 600; }
@@ -976,13 +978,6 @@ section { position: relative; z-index: 1; }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 /* =========================== Skills =========================== */
-.skills-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 24px;
-}
-@media (max-width: 960px) { .skills-grid { grid-template-columns: 1fr; } }
-
 .skill-stack {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1047,72 +1042,6 @@ section { position: relative; z-index: 1; }
   width: 16px; height: 16px; object-fit: contain;
   filter: brightness(1.05);
 }
-
-/* Skills orbit */
-.orbit-card {
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 28px;
-  background: var(--panel);
-  position: relative;
-  aspect-ratio: 1 / 1.05;
-  display: flex; flex-direction: column;
-  overflow: hidden;
-}
-.orbit-card .label-top {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 11px; color: var(--muted);
-  display: flex; justify-content: space-between;
-  margin-bottom: 4px;
-}
-.orbit-card .title-mid {
-  font-size: 16px; font-weight: 500; color: var(--text);
-  margin-bottom: 0;
-}
-.orbit-stage {
-  flex: 1;
-  position: relative;
-  display: grid; place-items: center;
-}
-.orbit-core {
-  width: 60px; height: 60px;
-  border-radius: 50%;
-  background: var(--grad);
-  display: grid; place-items: center;
-  font-family: "JetBrains Mono", monospace;
-  font-weight: 700; color: var(--bg);
-  font-size: 18px;
-  box-shadow: 0 0 40px rgba(159,134,224,0.5), 0 0 80px rgba(87,189,218,0.3);
-  position: relative;
-  z-index: 2;
-}
-.orbit-ring {
-  position: absolute; top: 50%; left: 50%;
-  border: 1px dashed var(--line);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: spin 30s linear infinite;
-}
-.orbit-ring.r1 { width: 55%; aspect-ratio: 1; animation-duration: 24s; }
-.orbit-ring.r2 { width: 78%; aspect-ratio: 1; animation-duration: 40s; animation-direction: reverse; }
-.orbit-ring.r3 { width: 100%; aspect-ratio: 1; animation-duration: 60s; }
-@keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
-
-.orbit-node {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: rgba(10, 15, 37, 0.9);
-  border: 1px solid var(--line-2);
-  display: grid; place-items: center;
-  transform-origin: 0 0;
-  animation: counter-spin 24s linear infinite;
-}
-.orbit-node img { width: 22px; height: 22px; object-fit: contain; }
-.orbit-node.r2 { animation: counter-spin 40s linear infinite reverse; }
-.orbit-node.r3 { animation: counter-spin 60s linear infinite; }
-@keyframes counter-spin { to { transform: translate(-50%, -50%) rotate(-360deg); } }
 
 /* =========================== Experience =========================== */
 .timeline { position: relative; padding-left: 32px; }
@@ -1249,6 +1178,21 @@ section { position: relative; z-index: 1; }
   pointer-events: none;
 }
 .project-card:hover .project-img-wrap::after { opacity: 0; }
+
+.project-card.has-shot .project-img-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: none;
+}
+.project-card.has-shot:hover .project-img-wrap img {
+  filter: none;
+  transform: scale(1.04);
+}
+.project-card.has-shot .project-img-wrap::after { opacity: 0; }
 
 /* per-project tints */
 .project-card.tint-cyan    { --tint-a: rgba(87, 189, 218, 0.7);  --tint-b: rgba(46, 134, 222, 0.5); }
