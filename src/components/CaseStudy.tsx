@@ -1,21 +1,6 @@
 import { useEffect } from "react";
 import type { Project } from "../data";
 
-function Arrow() {
-  return (
-    <svg className="link-arrow" viewBox="0 0 12 12" aria-hidden="true">
-      <path
-        d="M3.2 8.8 8.8 3.2M4.7 3.2H8.8V7.3"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.25"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export function CaseStudy({ project }: { project: Project }) {
   const study = project.caseStudy;
 
@@ -31,8 +16,8 @@ export function CaseStudy({ project }: { project: Project }) {
 
   return (
     <article className="case">
-      <a className="case-back" href="/#work">
-        Back to work
+      <a className="case-back" href="/#projects">
+        Back to projects
       </a>
       <p className="kicker">{study.kicker}</p>
       <h1>{project.title}</h1>
@@ -54,9 +39,8 @@ export function CaseStudy({ project }: { project: Project }) {
         </div>
         <figcaption>
           How the application works
-          <a className="text-link" href="/dyslexai.png" target="_blank" rel="noreferrer">
-            Open full size
-            <Arrow />
+          <a className="project-link" href="/dyslexai.png" target="_blank" rel="noreferrer">
+            open full size →
           </a>
         </figcaption>
       </figure>
@@ -99,14 +83,12 @@ export function CaseStudy({ project }: { project: Project }) {
 
       <div className="case-links">
         {project.demo ? (
-          <a className="text-link" href={project.demo} target="_blank" rel="noreferrer">
-            Live demo
-            <Arrow />
+          <a className="project-link" href={project.demo} target="_blank" rel="noreferrer">
+            live demo →
           </a>
         ) : null}
-        <a className="text-link" href={project.href} target="_blank" rel="noreferrer">
-          View on GitHub
-          <Arrow />
+        <a className="project-link" href={project.href} target="_blank" rel="noreferrer">
+          view on github →
         </a>
       </div>
     </article>
