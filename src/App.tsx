@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { CaseStudy } from "./components/CaseStudy";
+import { ChatWidget } from "./components/ChatWidget";
 import { Home, Nav } from "./components/Home";
 import { projects } from "./data";
 import { startMotion } from "./motion.js";
@@ -47,6 +48,7 @@ export default function App() {
           <Home />
         )}
       </main>
+      <ChatWidget />
     </>
   );
 }
