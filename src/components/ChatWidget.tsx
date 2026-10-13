@@ -59,7 +59,7 @@ export function ChatWidget() {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          messages: history.slice(-8).map((turn) => ({ role: turn.role, content: turn.content })),
+          messages: history.slice(-12).map((turn) => ({ role: turn.role, content: turn.content })),
         }),
       });
       const payload = (await response.json()) as { reply?: string; error?: string };
@@ -91,7 +91,7 @@ export function ChatWidget() {
           <div className="chat-thread" ref={threadRef}>
             {turns.length === 0 ? (
               <div className="chat-empty">
-                <p>Ask about my projects, roles, or the stack. Answers come from this portfolio.</p>
+                <p>I answer questions about my work. A follow-up stays on the same topic.</p>
                 <div className="chat-starters">
                   {STARTERS.map((prompt) => (
                     <button key={prompt} type="button" onClick={() => ask(prompt)}>

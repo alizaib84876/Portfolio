@@ -12,7 +12,7 @@ const SITE = "https://muhammadalizaib.netlify.app";
 /** Plain-text record the chat model is allowed to use. */
 export function portfolioRecord(): string {
   const lines: string[] = [
-    `Name: ${profile.name}`,
+    `Name: ${profile.name}. He is also called Ali and Ali Zaib. Those names mean him.`,
     "Looking for AI/ML Engineer roles.",
     "Data Science graduate from FAST–NUCES. He builds applied AI systems that hold up beyond the demo, from models and evaluation to the software that makes them reliable and useful.",
     `Email: ${profile.email}`,
