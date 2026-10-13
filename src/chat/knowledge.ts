@@ -19,8 +19,16 @@ const STOP = new Set([
   "the", "and", "you", "your", "what", "about", "did", "how", "for", "with",
   "his", "her", "any", "have", "has", "does", "do", "who", "are", "was",
   "were", "tell", "me", "please", "can", "could", "would", "this", "that",
-  "there", "from", "into", "just", "know", "make",
+  "there", "from", "into", "just", "know", "make", "hub", "link", "links",
+  "where", "when", "why", "which",
 ]);
+
+function experienceLength(now = new Date()): string {
+  const hafizMonths = Math.max(0, (now.getFullYear() - 2026) * 12 + (now.getMonth() + 1 - 7));
+  const hafizText = hafizMonths === 1 ? "about 1 month" : `about ${hafizMonths} months`;
+  const asOf = now.toLocaleString("en-US", { month: "long", year: "numeric" });
+  return `Experience length, already calculated, do not redo the arithmetic: DevelopersHub was May 2025 through July 2025, about 3 months. Al-Hafiz started July 2026, is part-time, and is still ongoing, ${hafizText} as of ${asOf}. State both ranges separately. Do not add them into one year.`;
+}
 
 function sections(): Section[] {
   const identity = [
@@ -28,7 +36,10 @@ function sections(): Section[] {
     "Data Science graduate from FAST–NUCES, June 2026. Looking for AI/ML Engineer roles.",
     "He builds applied AI systems that hold up beyond the demo, from models and evaluation to the software that makes them reliable.",
     "Roles: Data Analyst & Developer at Al-Hafiz Protein Farms, where he built FlockOps. Data Science & Analytics Intern at DevelopersHub Corporation.",
+    experienceLength(),
+    "Capability-Aware Verification is a heterogeneous multi-agent LLM project.",
     `Projects: ${projects.map((project) => project.title).join(", ")}.`,
+    "The DevelopersHub internship has no public repository or demo.",
     `Email: ${profile.email}`,
     `Phone: ${profile.phone}`,
     `LinkedIn: ${profile.linkedin}`,
@@ -63,6 +74,13 @@ function sections(): Section[] {
         "FlockOps is the operations platform from this role. It is a data and software product, not an AI product.",
         "FlockOps live app: https://flock-ops-theta.vercel.app",
         "FlockOps source: https://github.com/alizaib84876/FlockOps",
+        "Sargodha is where this role is based. Do not describe the company beyond this record.",
+      );
+    }
+    if (role.org.includes("DevelopersHub")) {
+      lines.push(
+        "This internship has no public repository or demo.",
+        "Islamabad is where this remote internship was based. Do not describe the company beyond this record.",
       );
     }
     list.push({
@@ -80,6 +98,9 @@ function sections(): Section[] {
       `Tags: ${project.tags.join(", ")}`,
       `Source: ${project.href}`,
     ];
+    if (project.title.startsWith("Capability")) {
+      lines.push("This is a heterogeneous multi-agent LLM project.");
+    }
     if (project.stat) lines.push(`Figure: ${project.stat.value} ${project.stat.label}`);
     if (project.demo) lines.push(`Live demo: ${project.demo}`);
     if (project.caseStudy) {
@@ -94,10 +115,11 @@ function sections(): Section[] {
         study.note,
       );
     }
+    const extra = project.title.startsWith("Capability") ? " agent agents multiagent llm multi-agent " : "";
     list.push({
       id: `project-${project.title}`,
       text: lines.join("\n"),
-      terms: termsFrom(`${project.title} ${project.context} ${project.summary} ${project.tags.join(" ")} ${project.points.join(" ")}`),
+      terms: termsFrom(`${project.title} ${project.context} ${project.summary} ${project.tags.join(" ")} ${project.points.join(" ")}${extra}`),
     });
   }
 
@@ -156,9 +178,10 @@ function editDistance(left: string, right: string): number {
 }
 
 function matches(queryToken: string, term: string): boolean {
-  if (queryToken === term || term.includes(queryToken) || queryToken.includes(term)) return true;
-  if (queryToken.length < 5 || term.length < 5) return false;
-  return Math.abs(queryToken.length - term.length) <= 1 && editDistance(queryToken, term) <= 1;
+  if (queryToken === term) return true;
+  if (queryToken.length >= 5 && term.startsWith(queryToken)) return true;
+  if (queryToken.length !== term.length || queryToken.length < 5) return false;
+  return editDistance(queryToken, term) <= 1;
 }
 
 /** Keep the identity card and the sections that best match this conversation. */
@@ -176,15 +199,28 @@ export function relevantRecord(conversation: string): string {
     }))
     .filter((item) => item.score > 0)
     .sort((left, right) => right.score - left.score);
+  const best = ranked[0]?.score ?? 0;
+  const floor = best >= 3 ? best - 1 : 1;
+  const relevant = ranked.filter((item) => item.score >= floor);
 
   const chosen: Section[] = [];
   const seen = new Set<string>();
-  for (const item of ranked) {
+  const asksAboutRoles = query.some((token) =>
+    ["experience", "experiences", "expereince", "experince", "years", "year", "months", "month", "company", "companies", "employer", "employers", "internship"].includes(token),
+  );
+  if (asksAboutRoles) {
+    for (const section of all.filter((item) => item.id.startsWith("role-"))) {
+      if (seen.has(section.text)) continue;
+      seen.add(section.text);
+      chosen.push(section);
+    }
+  }
+  for (const item of relevant) {
     const text = item.section.text;
     if (seen.has(text)) continue;
     seen.add(text);
     chosen.push(item.section);
-    if (chosen.length === 3) break;
+    if (chosen.length === 4) break;
   }
 
   const identity = all.find((section) => section.id === "identity");

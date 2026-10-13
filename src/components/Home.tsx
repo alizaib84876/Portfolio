@@ -150,7 +150,7 @@ export function Home() {
                 <span>AI/ML Engineer</span>
                 <span className="ring"></span>
               </div>
-              <div className="hero-name mono">CV · NLP · MLOPS · APPLIED AI</div>
+              <div className="hero-name mono">MACHINE LEARNING · NLP · MLOPS · APPLIED AI</div>
               <h1 className="hero-headline">
                 <span className="line">
                   <span>Building</span>

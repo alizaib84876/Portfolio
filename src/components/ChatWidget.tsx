@@ -59,7 +59,7 @@ export function ChatWidget() {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          messages: history.slice(-12).map((turn) => ({ role: turn.role, content: turn.content })),
+          messages: history.slice(-16).map((turn) => ({ role: turn.role, content: turn.content })),
         }),
       });
       const payload = (await response.json()) as { reply?: string; error?: string };
@@ -107,7 +107,7 @@ export function ChatWidget() {
                 </p>
               ))
             )}
-            {pending ? <p className="chat-msg assistant pending">Looking through the portfolio…</p> : null}
+            {pending ? <p className="chat-msg assistant pending">Thinking...</p> : null}
           </div>
           <form
             className="chat-form"
