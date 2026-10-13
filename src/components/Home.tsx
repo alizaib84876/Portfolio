@@ -380,7 +380,7 @@ export function Home() {
                 <span className="square"></span>03 / Track record
               </div>
               <h2>
-                From analysis to <span className="gradient">shipped software</span>
+                <span className="gradient">Experience</span>
               </h2>
             </div>
             <div className="section-meta">2025 — present · {experience.length} roles</div>
@@ -428,7 +428,7 @@ export function Home() {
                 <span className="square"></span>04 / Selected work
               </div>
               <h2>
-                Selected work, <span className="gradient">built to be used</span>
+                <span className="gradient">Projects</span>
               </h2>
             </div>
             <div className="section-meta">CV · NLP · MLOps · data</div>

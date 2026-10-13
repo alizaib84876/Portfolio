@@ -9,76 +9,185 @@ import {
 
 const SITE = "https://muhammadalizaib.netlify.app";
 
-/** Plain-text record the chat model is allowed to use. */
-export function portfolioRecord(): string {
-  const lines: string[] = [
-    `Name: ${profile.name}. He is also called Ali and Ali Zaib. Those names mean him.`,
-    "Looking for AI/ML Engineer roles.",
-    "Data Science graduate from FAST–NUCES. He builds applied AI systems that hold up beyond the demo, from models and evaluation to the software that makes them reliable and useful.",
+type Section = {
+  id: string;
+  text: string;
+  terms: string[];
+};
+
+const STOP = new Set([
+  "the", "and", "you", "your", "what", "about", "did", "how", "for", "with",
+  "his", "her", "any", "have", "has", "does", "do", "who", "are", "was",
+  "were", "tell", "me", "please", "can", "could", "would", "this", "that",
+  "there", "from", "into", "just", "know", "make",
+]);
+
+function sections(): Section[] {
+  const identity = [
+    `${profile.name} is also called Ali and Ali Zaib. Those names mean him.`,
+    "Data Science graduate from FAST–NUCES, June 2026. Looking for AI/ML Engineer roles.",
+    "He builds applied AI systems that hold up beyond the demo, from models and evaluation to the software that makes them reliable.",
+    "Roles: Data Analyst & Developer at Al-Hafiz Protein Farms, where he built FlockOps. Data Science & Analytics Intern at DevelopersHub Corporation.",
+    `Projects: ${projects.map((project) => project.title).join(", ")}.`,
     `Email: ${profile.email}`,
     `Phone: ${profile.phone}`,
     `LinkedIn: ${profile.linkedin}`,
     `GitHub: ${profile.github}`,
     `Portfolio: ${SITE}`,
-    `Resume PDF: ${SITE}${profile.resume}`,
-    "The homepage counts are 7 selected projects, 2 roles, 2 certifications, and graduation in 2026.",
-    "The animated console on the homepage is decorative. Its tokens-per-second, latency, and request figures are not facts about his work.",
-    "Do not name teammates, supervisors, or collaborators. Do not invent employers, cities, freelance work, or deployment counts.",
-    "",
-    "Education:",
+    `Resume: ${SITE}${profile.resume}`,
+    "Homepage counts: 7 selected projects, 2 roles, 2 certifications, graduated 2026.",
+    "The animated console on the homepage is decorative. Its speed and request figures are not facts.",
+    "Do not name teammates or supervisors. Do not invent employers, cities, freelance work, or deployment counts.",
+  ].join("\n");
+
+  const list: Section[] = [
+    {
+      id: "identity",
+      text: identity,
+      terms: [
+        "ali", "zaib", "muhammad", "who", "about", "yourself", "introduction",
+        "graduate", "fast", "nuces", "hire", "role", "looking", "contact",
+        "email", "phone", "mobile", "number", "linkedin", "github", "resume",
+        "portfolio", "expertise", "expert", "background", "bio",
+      ],
+    },
   ];
 
-  for (const item of education) {
-    lines.push(`- ${item.credential}, ${item.school}, ${item.dates}${item.detail ? `, ${item.detail}` : ""}`);
-    if (item.courses.length) lines.push(`  Courses: ${item.courses.join(", ")}`);
-  }
-
-  lines.push("", "Experience:");
   for (const role of experience) {
-    lines.push(`- ${role.title}, ${role.org}, ${role.dates} (${role.meta})`);
-    for (const point of role.points) lines.push(`  - ${point}`);
+    const lines = [
+      `${role.title}, ${role.org}, ${role.dates} (${role.meta})`,
+      ...role.points.map((point) => `- ${point}`),
+    ];
+    if (role.org.includes("Hafiz")) {
+      lines.push(
+        "FlockOps is the operations platform from this role. It is a data and software product, not an AI product.",
+        "FlockOps live app: https://flock-ops-theta.vercel.app",
+        "FlockOps source: https://github.com/alizaib84876/FlockOps",
+      );
+    }
+    list.push({
+      id: `role-${role.org}`,
+      text: lines.join("\n"),
+      terms: termsFrom(`${role.title} ${role.org} ${role.points.join(" ")} experience job work internship role`),
+    });
   }
-  lines.push(
-    "FlockOps is the operations platform from the Al-Hafiz Protein Farms role. It is a data and software product, not an AI product.",
-    "FlockOps live app: https://flock-ops-theta.vercel.app",
-    "FlockOps source: https://github.com/alizaib84876/FlockOps",
-  );
 
-  lines.push("", "Projects:");
   for (const project of projects) {
-    lines.push(`- ${project.title} (${project.context})`);
-    lines.push(`  ${project.summary}`);
-    for (const point of project.points) lines.push(`  - ${point}`);
-    lines.push(`  Tags: ${project.tags.join(", ")}`);
-    if (project.stat) lines.push(`  Figure: ${project.stat.value} ${project.stat.label}`);
-    lines.push(`  Source: ${project.href}`);
-    if (project.demo) lines.push(`  Live demo: ${project.demo}`);
+    const lines = [
+      `${project.title} (${project.context})`,
+      project.summary,
+      ...project.points.map((point) => `- ${point}`),
+      `Tags: ${project.tags.join(", ")}`,
+      `Source: ${project.href}`,
+    ];
+    if (project.stat) lines.push(`Figure: ${project.stat.value} ${project.stat.label}`);
+    if (project.demo) lines.push(`Live demo: ${project.demo}`);
     if (project.caseStudy) {
       const study = project.caseStudy;
-      lines.push(`  Case study: ${SITE}/${study.slug}`);
-      lines.push(`  ${study.kicker}`);
-      lines.push(`  ${study.lede}`);
-      lines.push(`  Stack: ${study.stack.join(", ")}`);
-      lines.push(`  Pipeline: ${study.pipeline.join(" → ")}`);
-      lines.push(`  ${study.pipelineNote}`);
-      for (const metric of study.metrics) lines.push(`  ${metric.label}: ${metric.value}`);
-      for (const section of study.sections) {
-        lines.push(`  ${section.title}`);
-        for (const paragraph of section.paragraphs) lines.push(`  ${paragraph}`);
-      }
-      lines.push(`  ${study.note}`);
+      lines.push(
+        `Case study: ${SITE}/${study.slug}`,
+        study.lede,
+        `Stack: ${study.stack.join(", ")}`,
+        `Pipeline: ${study.pipeline.join(" → ")}`,
+        study.pipelineNote,
+        ...study.metrics.map((metric) => `${metric.label}: ${metric.value}`),
+        study.note,
+      );
+    }
+    list.push({
+      id: `project-${project.title}`,
+      text: lines.join("\n"),
+      terms: termsFrom(`${project.title} ${project.context} ${project.summary} ${project.tags.join(" ")} ${project.points.join(" ")}`),
+    });
+  }
+
+  list.push({
+    id: "skills",
+    text: skillGroups.map((group) => `${group.label}: ${group.items.join(", ")}`).join("\n"),
+    terms: termsFrom(`skills expertise stack tools ${skillGroups.map((group) => `${group.label} ${group.items.join(" ")}`).join(" ")}`),
+  });
+
+  list.push({
+    id: "education",
+    text: education
+      .map((item) => {
+        const courses = item.courses.length ? ` Courses: ${item.courses.join(", ")}` : "";
+        return `${item.credential}, ${item.school}, ${item.dates}${item.detail ? `, ${item.detail}` : ""}.${courses}`;
+      })
+      .join("\n"),
+    terms: termsFrom(`education degree university fast nuces courses ${education.map((item) => `${item.credential} ${item.school} ${item.courses.join(" ")}`).join(" ")}`),
+  });
+
+  list.push({
+    id: "certifications",
+    text: certifications.map((item) => `${item.name}, ${item.issuer}, ${item.date}`).join("\n"),
+    terms: ["certification", "certifications", "certificate", "coursera", "deeplearning"],
+  });
+
+  const farms = list.find((section) => section.text.includes("Al-Hafiz"));
+  if (farms) farms.terms.push("hafix", "alhafeez", "flock", "flockops", "shed", "broiler");
+
+  return list;
+}
+
+function termsFrom(value: string): string[] {
+  return [...new Set(tokens(value))];
+}
+
+function tokens(value: string): string[] {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9+#.]+/g, " ")
+    .split(/\s+/)
+    .filter((token) => token.length > 2 && !STOP.has(token));
+}
+
+function editDistance(left: string, right: string): number {
+  const rows = Array.from({ length: left.length + 1 }, () => Array<number>(right.length + 1).fill(0));
+  for (let i = 0; i <= left.length; i += 1) rows[i][0] = i;
+  for (let j = 0; j <= right.length; j += 1) rows[0][j] = j;
+  for (let i = 1; i <= left.length; i += 1) {
+    for (let j = 1; j <= right.length; j += 1) {
+      const cost = left[i - 1] === right[j - 1] ? 0 : 1;
+      rows[i][j] = Math.min(rows[i - 1][j] + 1, rows[i][j - 1] + 1, rows[i - 1][j - 1] + cost);
     }
   }
+  return rows[left.length][right.length];
+}
 
-  lines.push("", "Skills:");
-  for (const group of skillGroups) {
-    lines.push(`- ${group.label}: ${group.items.join(", ")}`);
+function matches(queryToken: string, term: string): boolean {
+  if (queryToken === term || term.includes(queryToken) || queryToken.includes(term)) return true;
+  if (queryToken.length < 5 || term.length < 5) return false;
+  return Math.abs(queryToken.length - term.length) <= 1 && editDistance(queryToken, term) <= 1;
+}
+
+/** Keep the identity card and the sections that best match this conversation. */
+export function relevantRecord(conversation: string): string {
+  const all = sections();
+  const query = tokens(conversation);
+  const ranked = all
+    .filter((section) => section.id !== "identity")
+    .map((section) => ({
+      section,
+      score: query.reduce(
+        (total, token) => total + (section.terms.some((term) => matches(token, term)) ? 1 : 0),
+        0,
+      ),
+    }))
+    .filter((item) => item.score > 0)
+    .sort((left, right) => right.score - left.score);
+
+  const chosen: Section[] = [];
+  const seen = new Set<string>();
+  for (const item of ranked) {
+    const text = item.section.text;
+    if (seen.has(text)) continue;
+    seen.add(text);
+    chosen.push(item.section);
+    if (chosen.length === 3) break;
   }
 
-  lines.push("", "Certifications:");
-  for (const item of certifications) {
-    lines.push(`- ${item.name}, ${item.issuer}, ${item.date}`);
-  }
-
-  return lines.join("\n");
+  const identity = all.find((section) => section.id === "identity");
+  const parts = [identity?.text ?? "", ...chosen.map((section) => section.text)].filter(Boolean);
+  return parts.join("\n\n");
 }
