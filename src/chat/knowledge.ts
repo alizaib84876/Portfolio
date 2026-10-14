@@ -120,7 +120,7 @@ function sections(): Section[] {
     list.push({
       id: `project-${project.title}`,
       text: lines.join("\n"),
-      terms: termsFrom(`${project.title} ${project.context} ${project.summary} ${project.tags.join(" ")} ${project.points.join(" ")}${extra}`),
+      terms: termsFrom(`${project.title} ${project.context} ${project.summary} ${project.tags.join(" ")} ${project.points.join(" ")}${extra} ${writtenProjectText(project)}`),
     });
   }
 
@@ -154,6 +154,60 @@ function sections(): Section[] {
   if (farms) farms.terms.push("hafix", "alhafeez", "flock", "flockops", "shed", "broiler");
 
   return list;
+}
+
+function writtenProjectText(project: (typeof projects)[number]): string {
+  const study = project.caseStudy;
+  return [
+    project.title,
+    project.context,
+    project.summary,
+    project.tags.join(" "),
+    project.points.join(" "),
+    study?.lede,
+    study?.stack.join(" "),
+    study?.pipeline.join(" "),
+    study?.pipelineNote,
+    study?.note,
+    study?.sections.flatMap((section) => section.paragraphs).join(" "),
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+function mentionsName(text: string, name: string): boolean {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(?:^|[^a-z0-9+#])${escaped}(?:[^a-z0-9+#]|$)`, "i").test(text);
+}
+
+function skillChecks(conversation: string): string {
+  const query = tokens(conversation);
+  const skills = skillGroups
+    .flatMap((group) => group.items)
+    .filter((skill) =>
+      tokens(skill).some((token) =>
+        query.some((word) => {
+          if (word === token) return true;
+          if (token.length < 5 || word.length < 5) return false;
+          return token.startsWith(word) || word.startsWith(token);
+        }),
+      ),
+    );
+  if (skills.length === 0) return "";
+  const lines = skills.map((skill) => {
+    const projectsNamed = projects
+      .filter((project) => mentionsName(writtenProjectText(project), skill))
+      .map((project) => project.title);
+    const rolesNamed = experience
+      .filter((role) => mentionsName(`${role.title} ${role.org} ${role.points.join(" ")}`, skill))
+      .map((role) => role.org);
+    const places = [...projectsNamed, ...rolesNamed];
+    if (places.length === 0) {
+      return `${skill} is in the skill set only. No project or role names it. Do not describe a use and do not name a project.`;
+    }
+    return `${skill} is named only in: ${places.join("; ")}. Do not add any other project or any use that those texts do not state.`;
+  });
+  return ["Skill check, obey exactly:", ...lines].join("\n");
 }
 
 function termsFrom(value: string): string[] {
@@ -228,6 +282,6 @@ export function relevantRecord(conversation: string): string {
   }
 
   const identity = all.find((section) => section.id === "identity");
-  const parts = [identity?.text ?? "", ...chosen.map((section) => section.text)].filter(Boolean);
+  const parts = [skillChecks(conversation), identity?.text ?? "", ...chosen.map((section) => section.text)].filter(Boolean);
   return parts.join("\n\n");
 }
