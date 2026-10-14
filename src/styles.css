@@ -515,6 +515,13 @@ section { position: relative; z-index: 1; }
   margin-bottom: 18px;
   letter-spacing: 0.04em;
 }
+.hero-greeting {
+  margin: 0 0 10px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
 
 .hero-headline {
   font-size: clamp(48px, 7.2vw, 108px);
