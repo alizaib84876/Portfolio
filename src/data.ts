@@ -324,7 +324,6 @@ export const skillGroups = [
       "Librosa",
       "PostgreSQL",
       "Supabase",
-      "SQLAlchemy",
     ],
   },
   {

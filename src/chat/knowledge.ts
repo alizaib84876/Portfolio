@@ -126,7 +126,10 @@ function sections(): Section[] {
 
   list.push({
     id: "skills",
-    text: skillGroups.map((group) => `${group.label}: ${group.items.join(", ")}`).join("\n"),
+    text: [
+      "These are skills only. Do not say a skill was used in a project unless that project's own text names it.",
+      skillGroups.map((group) => `${group.label}: ${group.items.join(", ")}`).join("\n"),
+    ].join("\n"),
     terms: termsFrom(`skills expertise stack tools ${skillGroups.map((group) => `${group.label} ${group.items.join(" ")}`).join(" ")}`),
   });
 

@@ -29,7 +29,6 @@ const icons: Record<string, string> = {
   Seaborn: "/skills/seaborn.svg",
   PostgreSQL: "/skills/postgresql.svg",
   Supabase: "/skills/supabase.svg",
-  SQLAlchemy: "/skills/sqlalchemy.svg",
   "OpenAI API": "/skills/openai.svg",
   MLflow: "/skills/mlflow.svg",
   Kubeflow: "/skills/kubeflow.svg",
