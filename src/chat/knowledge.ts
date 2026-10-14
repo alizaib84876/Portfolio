@@ -40,6 +40,7 @@ function sections(): Section[] {
     "Capability-Aware Verification is a heterogeneous multi-agent LLM project.",
     `Projects: ${projects.map((project) => project.title).join(", ")}.`,
     "The DevelopersHub internship has no public repository or demo.",
+    "Recruiters reach him by email, phone, or LinkedIn. There is no calendar or booking page.",
     `Email: ${profile.email}`,
     `Phone: ${profile.phone}`,
     `LinkedIn: ${profile.linkedin}`,
