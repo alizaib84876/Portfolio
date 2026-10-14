@@ -1946,7 +1946,7 @@ section { position: relative; z-index: 1; }
   color: var(--text);
   padding: 10px 12px;
   font: inherit;
-  font-size: 14px;
+  font-size: 16px;
 }
 .chat-form button {
   align-self: flex-end;
