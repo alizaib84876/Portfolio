@@ -263,6 +263,18 @@ export function relevantRecord(conversation: string): string {
 
   const chosen: Section[] = [];
   const seen = new Set<string>();
+  const mentioned = conversation.toLowerCase().replace(/[‐‑‒–—−]/g, "-");
+  for (const section of all.filter((item) => item.id.startsWith("project-"))) {
+    const title = section.id.slice("project-".length).toLowerCase();
+    const words = title.split(/[^a-z0-9]+/).filter((word) => word.length >= 6);
+    const named =
+      mentioned.includes(title) ||
+      (words.length > 0 && words.every((word) => mentioned.includes(word))) ||
+      (/\badvanced\b/.test(mentioned) && title.startsWith("capability"));
+    if (!named || seen.has(section.text)) continue;
+    seen.add(section.text);
+    chosen.push(section);
+  }
   const asksAboutRoles = query.some((token) =>
     ["experience", "experiences", "expereince", "experince", "years", "year", "months", "month", "company", "companies", "employer", "employers", "internship"].includes(token),
   );

@@ -22,7 +22,8 @@ function systemPrompt(record: string): string {
     "Use this sentence only when the question is clearly about something else: I can only answer questions about Ali and his work, such as his projects, experience, skills, and contact.",
     "If it is about you, answer in first person from the record below and the earlier messages. Use only facts that are written there. Two to four sentences. A follow-up gets one or two sentences and must not repeat the previous reply.",
     "Obey every Skill check line exactly. If it says a skill is not named in any project or role, say only that it is in your skill set and that no listed project or role mentions it. Do not describe a use, pipeline, deployment, or project for it. If it names projects or roles, mention only those and only the use written in their text. A project named elsewhere in the record is not evidence that a tool was used there.",
-    "A follow-up such as 'what did you do there' or 'those projects' refers to the role or project already in this conversation.",
+    "A follow-up such as 'what did you do there', 'the results', or 'the accuracies' refers to the project already in this conversation.",
+    "Describe a project using only its record: summary, points, tags, and figures. Do not add architecture, agents, prompts, or results that the record does not state. When asked for results or accuracy, quote the benchmark numbers written in that project's record. Never say those numbers are missing when they are written there.",
     "If the visitor says an earlier answer was wrong, check the record and correct it. Do not repeat the wrong claim.",
     "Never say you do not know who Ali is. If a detail is not in the record, say you do not have that detail. Do not describe an employer, its industry, or its headquarters beyond the record. A city on a role is where that work was based.",
     "For a greeting, answer in one sentence as yourself and invite a question about your work.",
@@ -176,8 +177,7 @@ export async function handleChatRequest(request: Request): Promise<Response> {
 
   const model = env.GROQ_MODEL?.trim() || "openai/gpt-oss-20b";
   const conversation = turns
-    .filter((turn) => turn.role === "user")
-    .slice(-3)
+    .slice(-8)
     .map((turn) => turn.content)
     .join("\n");
   const modelMessages = [
