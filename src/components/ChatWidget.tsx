@@ -91,7 +91,7 @@ export function ChatWidget() {
           <div className="chat-thread" ref={threadRef}>
             {turns.length === 0 ? (
               <div className="chat-empty">
-                <p>I answer questions about my work. A follow-up stays on the same topic.</p>
+                <p>Hi, I'm Ali's AI assistant. Ask me about his projects, experience, skills or availability.</p>
                 <div className="chat-starters">
                   {STARTERS.map((prompt) => (
                     <button key={prompt} type="button" onClick={() => ask(prompt)}>

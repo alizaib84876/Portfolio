@@ -33,7 +33,7 @@ function experienceLength(now = new Date()): string {
 function sections(): Section[] {
   const identity = [
     `${profile.name} is also called Ali and Ali Zaib. Those names mean him.`,
-    "Data Science graduate from FAST–NUCES, June 2026. Looking for AI/ML Engineer roles.",
+    "Data Science graduate from FAST–NUCES, June 2026. Looking for AI/ML Engineer roles. Open to on-site, hybrid, and remote opportunities.",
     "He builds applied AI systems that hold up beyond the demo, from models and evaluation to the software that makes them reliable.",
     "Roles: Data Analyst & Developer at Al-Hafiz Protein Farms, where he built FlockOps. Data Science & Analytics Intern at DevelopersHub Corporation.",
     experienceLength(),

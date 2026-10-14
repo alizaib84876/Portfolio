@@ -145,30 +145,23 @@ export function Home() {
             <div className="hero-left">
               <div className="hero-status">
                 <span className="avatar">AZ</span>
-                <span>{profile.name}</span>
-                <span className="sep">/</span>
                 <span>AI/ML Engineer</span>
+                <span className="sep">/</span>
+                <span>On-site · Hybrid · Remote</span>
                 <span className="ring"></span>
               </div>
               <div className="hero-name mono">MACHINE LEARNING · NLP · MLOPS · APPLIED AI</div>
               <h1 className="hero-headline">
                 <span className="line">
-                  <span>Building</span>
+                  <span>Muhammad</span>
                 </span>
                 <span className="line">
-                  <span>
-                    <em>applied AI</em>
-                  </span>
-                </span>
-                <span className="line">
-                  <span>that holds up</span>
-                </span>
-                <span className="line">
-                  <span>
-                    beyond <em>the demo.</em>
-                  </span>
+                  <span>Ali Zaib</span>
                 </span>
               </h1>
+              <p className="hero-tagline">
+                Building <em>applied AI</em> that holds up beyond <em>the demo.</em>
+              </p>
               <div className="hero-subline">
                 <span className="arrow">▸</span>
                 <span data-typed>AI/ML Engineer</span>
@@ -177,8 +170,8 @@ export function Home() {
               <p className="hero-desc">
                 Data Science graduate from FAST–NUCES. I build applied AI systems that hold up beyond the demo,
                 from models and evaluation to the software that makes them reliable and useful.{" "}
-                <span className="scramble" data-scramble="Looking for AI/ML Engineer roles.">
-                  Looking for AI/ML Engineer roles.
+                <span className="scramble" data-scramble="Open to on-site, hybrid, and remote opportunities.">
+                  Open to on-site, hybrid, and remote opportunities.
                 </span>
               </p>
               <div className="hero-ctas">
@@ -532,14 +525,15 @@ export function Home() {
           <div className="contact-card reveal">
             <div className="availability">
               <span className="ring"></span>
-              OPEN TO AI/ML ENGINEER ROLES
+              OPEN TO ON-SITE, HYBRID, AND REMOTE
             </div>
             <h2>
               Have a problem worth <em>building through?</em>
             </h2>
             <p>
-              I am looking for AI/ML Engineer roles. The useful part of the work is taking a model past the notebook
-              and into software someone can actually use.
+              I am looking for AI/ML Engineer roles, and I am open to on-site, hybrid, and remote opportunities.
+              The useful part of the work is taking a model past the notebook and into software someone can actually
+              use.
             </p>
             <div className="contact-meta">
               <div className="item">
@@ -551,7 +545,7 @@ export function Home() {
                 <span className="l">Graduated</span>
               </div>
               <div className="item">
-                <span className="v">Remote · Hybrid</span>
+                <span className="v">On-site · Hybrid · Remote</span>
                 <span className="l">Open to</span>
               </div>
               <div className="item">
